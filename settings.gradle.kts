@@ -23,3 +23,4 @@ rootProject.name = "MockApp"
 include(":app")
 include(":domain")
 include(":data")
+include(":presentation")

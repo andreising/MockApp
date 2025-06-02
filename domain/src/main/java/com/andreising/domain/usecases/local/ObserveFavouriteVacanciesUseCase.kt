@@ -6,5 +6,5 @@ import javax.inject.Inject
 class ObserveFavouriteVacanciesUseCase @Inject constructor(
     private val repository: VacancyLocalRepository
 ) {
-    operator fun invoke() = repository.getSavedVacancy()
+    operator fun invoke() = repository.observeSavedVacancyList()
 }

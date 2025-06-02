@@ -1,4 +1,4 @@
-package com.andreising.mockapp.ui.theme
+package com.andreising.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

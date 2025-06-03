@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id ("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
@@ -33,6 +33,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
     implementation(project(":domain"))
@@ -45,14 +49,14 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //room
-    implementation (libs.androidx.room.runtime)
-    implementation (libs.androidx.room.ktx)
-    kapt  (libs.androidx.room.compiler)
+    api(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     //retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.okhttp)
+    api(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
 
     //inject

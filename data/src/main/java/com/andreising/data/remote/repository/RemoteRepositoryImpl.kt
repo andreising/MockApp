@@ -3,20 +3,22 @@ package com.andreising.data.remote.repository
 import com.andreising.data.remote.api.GoogleDriveApi
 import com.andreising.data.remote.dto.ApiResponseDto
 import com.andreising.data.remote.mapper.toDomain
-import com.andreising.domain.model.RemoteResponse
 import com.andreising.domain.model.state.ResponseState
 import com.andreising.domain.repository.RemoteRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class RemoteRepositoryImpl(private val googleDriveApi: GoogleDriveApi) : RemoteRepository {
+class RemoteRepositoryImpl @Inject constructor(
+    private val googleDriveApi: GoogleDriveApi
+) : RemoteRepository {
 
     private val _remoteResponseState =
-        MutableStateFlow<ResponseState<RemoteResponse>>(ResponseState.Loading())
+        MutableStateFlow<ResponseState>(ResponseState.Loading)
 
     override suspend fun loadInfo() {
-        _remoteResponseState.value = ResponseState.Loading()
+        _remoteResponseState.value = ResponseState.Loading
         try {
             val response = googleDriveApi.downloadFile(DEFAULT_FILE_ID)
             if (response.isSuccessful) {

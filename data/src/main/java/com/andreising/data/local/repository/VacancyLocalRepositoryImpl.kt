@@ -1,6 +1,6 @@
 package com.andreising.data.local.repository
 
-import com.andreising.data.local.dao.VacancyDao
+import com.andreising.data.local.AppDatabase
 import com.andreising.data.local.mappers.toDomain
 import com.andreising.data.local.mappers.toEntity
 import com.andreising.domain.model.VacancyMainModel
@@ -12,10 +12,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class VacancyLocalRepositoryImpl(
-    private val vacancyDao: VacancyDao
+class VacancyLocalRepositoryImpl @Inject constructor(
+    database: AppDatabase
 ) : VacancyLocalRepository {
+    private val vacancyDao = database.vacancyDao()
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 

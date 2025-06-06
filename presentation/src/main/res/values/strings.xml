@@ -6,4 +6,6 @@
     <string name="responses">Отклики</string>
     <string name="messages">Сообщения</string>
     <string name="profile">Профиль</string>
+    <string name="filter_button">Filter button</string>
+    <string name="filter">Filter</string>
 </resources>

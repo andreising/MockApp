@@ -9,7 +9,10 @@ import androidx.navigation.compose.composable
 fun AppMainNavigation(
     navHostController: NavHostController,
     mainScreen: @Composable () -> Unit,
-    favouriteScreen: @Composable () -> Unit
+    favouriteScreen: @Composable () -> Unit,
+    responseScreen: @Composable () -> Unit,
+    messagesScreen: @Composable () -> Unit,
+    profileScreen: @Composable () -> Unit
 ) {
     NavHost(navController = navHostController, startDestination = Screen.MainScreen.route) {
         composable(route = Screen.MainScreen.route) {
@@ -18,6 +21,18 @@ fun AppMainNavigation(
 
         composable(route = Screen.FavouriteScreen.route) {
             favouriteScreen.invoke()
+        }
+
+        composable(route = Screen.ResponsesScreen.route) {
+            responseScreen.invoke()
+        }
+
+        composable(route = Screen.MessagesScreen.route) {
+            messagesScreen.invoke()
+        }
+
+        composable(route = Screen.ProfileScreen.route) {
+            profileScreen.invoke()
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.andreising.presentation.screens.main
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +32,7 @@ import com.andreising.domain.model.Recommendation
 import com.andreising.presentation.R
 import com.andreising.presentation.theme.DarkGraySecondary
 import com.andreising.presentation.theme.Primary
+import androidx.core.net.toUri
 
 @Composable
 fun RecommendationBlock(recommendationList: List<OptionMainModel>) {
@@ -42,7 +46,7 @@ fun RecommendationBlock(recommendationList: List<OptionMainModel>) {
     ) {
         item { Spacer(Modifier.width(8.dp)) }
         items(recommendationList) {
-            FastFilterCard(it) { }
+            FastFilterCard(it)
         }
         item { Spacer(Modifier.width(8.dp)) }
     }
@@ -53,12 +57,15 @@ fun RecommendationBlock(recommendationList: List<OptionMainModel>) {
 fun FastFilterCard(
     model: OptionMainModel,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .size(width = 132.dp, height = 120.dp)
-            .clickable { onClick(model.link) },
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, model.link.toUri())
+                context.startActivity(intent)
+            },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = DarkGraySecondary)
     ) {
@@ -70,9 +77,11 @@ fun FastFilterCard(
             val maxLines = if (model.buttonText == null) 3 else 2
 
             model.recommendation.let {
-                if (it!= Recommendation.UNDEFINED) {
+                if (it != Recommendation.UNDEFINED) {
                     Image(
-                        painter = painterResource(id = getRecommendationIcon(it) ?: error("Undefined")),
+                        painter = painterResource(
+                            id = getRecommendationIcon(it) ?: error("Undefined")
+                        ),
                         contentDescription = "Recommendation Icon",
                         modifier = Modifier
                             .padding(bottom = 16.dp)
@@ -108,7 +117,7 @@ fun FastFilterCard(
 
 private fun getRecommendationIcon(recommendation: Recommendation): Int? {
     return when (recommendation) {
-         Recommendation.NEAR_VACANCIES -> R.drawable.ic_near_vacancies
+        Recommendation.NEAR_VACANCIES -> R.drawable.ic_near_vacancies
         Recommendation.LEVEL_UP_RESUME -> R.drawable.ic_lvl_up_resume
         Recommendation.TEMPORARY_JOB -> R.drawable.ic_temporary_job
         else -> null

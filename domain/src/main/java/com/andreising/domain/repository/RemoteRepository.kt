@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface RemoteRepository {
     suspend fun loadInfo()
-    fun getLoadState(): StateFlow<ResponseState>
+    val loadState: StateFlow<ResponseState>
 }

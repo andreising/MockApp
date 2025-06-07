@@ -30,20 +30,20 @@ fun MainScreenSearchBar(horizontalPadding: PaddingValues) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(40.dp)
             .padding(horizontalPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        SearchInputCard()
+        SearchInputCard(modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.width(8.dp))
-        FilterButtonCard()
+        FilterButtonCard(modifier = Modifier.size(40.dp))
     }
 }
 
 @Composable
-fun SearchInputCard() {
+fun SearchInputCard(modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
-            .height(40.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = GraySecondary),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -80,10 +80,9 @@ fun SearchPlaceholderText() {
 }
 
 @Composable
-fun FilterButtonCard() {
+fun FilterButtonCard(modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
-            .size(40.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = GraySecondary),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)

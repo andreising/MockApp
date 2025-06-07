@@ -1,13 +1,13 @@
 package com.andreising.data.remote.repository
 
 import com.andreising.data.remote.api.GoogleDriveApi
-import com.andreising.data.remote.dto.ApiResponseDto
 import com.andreising.data.remote.mapper.toDomain
 import com.andreising.domain.model.state.ResponseState
 import com.andreising.domain.repository.RemoteRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -16,16 +16,17 @@ class RemoteRepositoryImpl @Inject constructor(
 
     private val _remoteResponseState =
         MutableStateFlow<ResponseState>(ResponseState.Loading)
+    override val loadState: StateFlow<ResponseState>
+        get() = _remoteResponseState
 
-    override suspend fun loadInfo() {
+    override suspend fun loadInfo() = withContext(Dispatchers.IO) {
         _remoteResponseState.value = ResponseState.Loading
         try {
-            val response = googleDriveApi.downloadFile(DEFAULT_FILE_ID)
+            val response = googleDriveApi.getVacancyAndOptionInfo(DEFAULT_FILE_ID)
             if (response.isSuccessful) {
-                val jsonString = response.body()?.string()
-                if (jsonString != null) {
-                    val parsed = Json.decodeFromString<ApiResponseDto>(jsonString)
-                    _remoteResponseState.value = ResponseState.Success(parsed.toDomain())
+                val apiResponse = response.body()
+                if (apiResponse != null) {
+                    _remoteResponseState.value = ResponseState.Success(apiResponse.toDomain())
                 } else {
                     _remoteResponseState.value = ResponseState.Error("Пустой ответ")
                 }
@@ -37,8 +38,6 @@ class RemoteRepositoryImpl @Inject constructor(
             _remoteResponseState.value = ResponseState.Error("Ошибка: ${e.message}")
         }
     }
-
-    override fun getLoadState() = _remoteResponseState.asStateFlow()
 
     companion object {
         private const val DEFAULT_FILE_ID = "1z4TbeDkbfXkvgpoJprXbN85uCcD7f00r"

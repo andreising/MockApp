@@ -10,7 +10,7 @@ import com.andreising.domain.model.VacancyMainModel
 
 fun OptionDTO.toDomain() = OptionMainModel(
     recommendation = Recommendation.getRecommendationByString(id),
-    title = title,
+    title = title.trim(),
     buttonText = button?.text,  // Если button есть, берём его текст
     link = link
 )

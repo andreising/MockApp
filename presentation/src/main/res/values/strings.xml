@@ -13,4 +13,7 @@
     <string name="favourite">" favourite"</string>
     <string name="vacancies_for_you">Вакансии для вас</string>
     <string name="experince">Опыт</string>
+    <string name="by_compliance">По соответствию</string>
+    <string name="sort_by">Sort by</string>
+    <string name="back">Back</string>
 </resources>

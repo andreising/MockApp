@@ -1,5 +1,6 @@
 package com.andreising.presentation.screens.main.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,7 +28,7 @@ import com.andreising.presentation.theme.GrayBasic
 import com.andreising.presentation.theme.GraySecondary
 
 @Composable
-fun MainScreenSearchBar(horizontalPadding: PaddingValues) {
+fun MainScreenSearchBar(horizontalPadding: PaddingValues, onClick: (() -> Unit)?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,14 +36,14 @@ fun MainScreenSearchBar(horizontalPadding: PaddingValues) {
             .padding(horizontalPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        SearchInputCard(modifier = Modifier.weight(1f))
+        SearchInputCard(modifier = Modifier.weight(1f), onClick = onClick)
         Spacer(modifier = Modifier.width(8.dp))
         FilterButtonCard(modifier = Modifier.size(40.dp))
     }
 }
 
 @Composable
-fun SearchInputCard(modifier: Modifier = Modifier) {
+fun SearchInputCard(modifier: Modifier = Modifier, onClick: (() -> Unit)?) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(8.dp),
@@ -54,7 +56,7 @@ fun SearchInputCard(modifier: Modifier = Modifier) {
                 .padding(start = 12.dp, end = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SearchIcon()
+            SearchIcon(onClick)
             Spacer(modifier = Modifier.width(8.dp))
             SearchPlaceholderText()
         }
@@ -62,11 +64,13 @@ fun SearchInputCard(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SearchIcon() {
+fun SearchIcon(onClick: (() -> Unit)?) {
     Icon(
-        painter = painterResource(R.drawable.ic_search),
-        contentDescription = stringResource(R.string.search),
-        tint = GrayBasic
+        painter = painterResource(if (onClick != null) R.drawable.ic_back else R.drawable.ic_search),
+        contentDescription = stringResource(if (onClick != null) R.string.back else R.string.search),
+        tint = if (onClick != null) Color.White else GrayBasic,
+        modifier = Modifier
+            .clickable { onClick?.invoke() }
     )
 }
 

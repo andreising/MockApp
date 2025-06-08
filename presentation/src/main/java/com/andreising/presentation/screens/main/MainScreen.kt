@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,9 +26,11 @@ import com.andreising.domain.model.OptionMainModel
 import com.andreising.domain.model.VacancyMainModel
 import com.andreising.domain.model.state.ResponseState
 import com.andreising.presentation.R
+import com.andreising.presentation.screens.main.components.BigPrimaryButton
 import com.andreising.presentation.screens.main.components.MainScreenSearchBar
 import com.andreising.presentation.screens.main.components.RecommendationBlock
 import com.andreising.presentation.screens.main.components.VacancyCard
+import com.andreising.presentation.screens.main.components.VacancyTopRow
 
 @Composable
 fun MainScreen() {
@@ -68,20 +72,39 @@ private fun LoadingState() {
 private fun SuccessContent(optionList: List<OptionMainModel>, vacancyList: List<VacancyMainModel>) {
     val defaultHorizontalPadding = PaddingValues(horizontal = 16.dp)
 
+    val isFullState = remember {
+        mutableStateOf(false)
+    }
+
     LazyColumn(
         modifier = Modifier
             .padding(vertical = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item { MainScreenSearchBar(horizontalPadding = defaultHorizontalPadding) }
-        item { RecommendationBlock(optionList) }
+        item {
+            MainScreenSearchBar(
+                onClick = if (isFullState.value) {
+                    { isFullState.value = false }
+                } else null, horizontalPadding = defaultHorizontalPadding
+            )
+        }
+        item {
+            if (!isFullState.value) RecommendationBlock(optionList) else VacancyTopRow(
+                vacancyList.size
+            )
+        }
         item { VacancyTitle() }
-        items(vacancyList) {
+        items(if (!isFullState.value) vacancyList.take(3) else vacancyList) {
             VacancyCard(
                 vacancy = it,
                 onFavouriteClicked = {},
                 onClick = {})
+        }
+        if (!isFullState.value) item {
+            BigPrimaryButton(
+                vacancyCount = vacancyList.size,
+                onClick = { isFullState.value = true })
         }
     }
 }

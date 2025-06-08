@@ -22,7 +22,8 @@ fun JobVacancyDTO.toDomain() = VacancyMainModel(
     town = address.town,
     company = company,
     experienceText = experience.previewText,
-    publishedDate = publishedDate
+    publishedDate = publishedDate,
+    title = title
 )
 
 fun ApiResponseDto.toDomain() = RemoteResponse(

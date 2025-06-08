@@ -9,7 +9,7 @@ sealed class BottomNavigationItem(val titleId: Int, val iconId: Int, val route: 
     data class Favourites(val favouritesCount: Int) :
         BottomNavigationItem(
             R.string.favourites,
-            R.drawable.ic_favourites,
+            R.drawable.ic_favourites_false,
             Screen.FavouriteScreen.route
         )
 

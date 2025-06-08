@@ -8,4 +8,9 @@
     <string name="profile">Профиль</string>
     <string name="filter_button">Filter button</string>
     <string name="filter">Filter</string>
+    <string name="checked_company">checked company</string>
+    <string name="respond">Откликнуться</string>
+    <string name="favourite">" favourite"</string>
+    <string name="vacancies_for_you">Вакансии для вас</string>
+    <string name="experince">Опыт</string>
 </resources>

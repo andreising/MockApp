@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey
 data class VacancyEntity(
     @PrimaryKey val id: String,
     val lookingNumber: Int?,
+    val title: String,
     val town: String,
     val company: String,
     val experienceText: String,

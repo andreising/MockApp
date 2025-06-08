@@ -1,7 +1,6 @@
-package com.andreising.presentation.screens.main
+package com.andreising.presentation.screens.main.components
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

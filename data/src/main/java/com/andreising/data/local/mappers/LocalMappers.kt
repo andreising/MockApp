@@ -5,12 +5,13 @@ import com.andreising.domain.model.VacancyMainModel
 
 fun VacancyEntity.toDomain(isFavourite: Boolean) = VacancyMainModel(
     id = id,
-    lookingNumber = lookingNumber,
+    lookingNumber = lookingNumber ?: 0,
     isFavourite = isFavourite,
     town = town,
     company = company,
     experienceText = experienceText,
-    publishedDate = publishedDate
+    publishedDate = publishedDate,
+    title = title
 )
 
 fun VacancyMainModel.toEntity() = VacancyEntity(
@@ -19,5 +20,6 @@ fun VacancyMainModel.toEntity() = VacancyEntity(
     town = town,
     company = company,
     experienceText = experienceText,
-    publishedDate = publishedDate
+    publishedDate = publishedDate,
+    title = title
 )

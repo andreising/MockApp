@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MockApp</string>
+    <string name="search">Поиск</string>
+    <string name="favourites">Избранное</string>
+    <string name="responses">Отклики</string>
+    <string name="messages">Сообщения</string>
+    <string name="profile">Профиль</string>
+    <string name="filter_button">Filter button</string>
+    <string name="filter">Filter</string>
+    <string name="checked_company">checked company</string>
+    <string name="respond">Откликнуться</string>
+    <string name="favourite">" favourite"</string>
+    <string name="vacancies_for_you">Вакансии для вас</string>
+    <string name="experince">Опыт</string>
+    <string name="by_compliance">По соответствию</string>
+    <string name="sort_by">Sort by</string>
+    <string name="back">Back</string>
+</resources>

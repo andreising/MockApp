@@ -7,7 +7,7 @@ enum class Recommendation(val key: String?) {
     UNDEFINED(null);
 
     companion object {
-        fun getRecommendationByString(key: String): Recommendation {
+        fun getRecommendationByString(key: String?): Recommendation {
             return when(key) {
                 NEAR_VACANCIES.key -> NEAR_VACANCIES
                 LEVEL_UP_RESUME.key -> LEVEL_UP_RESUME

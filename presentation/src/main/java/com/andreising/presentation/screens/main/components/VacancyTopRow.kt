@@ -24,15 +24,6 @@ fun VacancyTopRow(
     totalCount: Int,
     modifier: Modifier = Modifier
 ) {
-    fun getVacancyWordForm(count: Int): String {
-        val mod10 = count % 10
-        val mod100 = count % 100
-        return when {
-            mod10 == 1 && mod100 != 11 -> "$count вакансия"
-            mod10 in 2..4 && mod100 !in 12..14 -> "$count вакансии"
-            else -> "$count вакансий"
-        }
-    }
 
     Row(
         modifier = modifier
@@ -41,14 +32,7 @@ fun VacancyTopRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = getVacancyWordForm(totalCount),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.White,
-            lineHeight = 17.sp
-        )
-
+        CountText(count = totalCount)
         Row(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -70,4 +54,25 @@ fun VacancyTopRow(
             )
         }
     }
+}
+
+@Composable
+fun CountText(count: Int, modifier: Modifier = Modifier) {
+    fun getVacancyWordForm(count: Int): String {
+        val mod10 = count % 10
+        val mod100 = count % 100
+        return when {
+            mod10 == 1 && mod100 != 11 -> "$count вакансия"
+            mod10 in 2..4 && mod100 !in 12..14 -> "$count вакансии"
+            else -> "$count вакансий"
+        }
+    }
+    Text(
+        modifier = modifier,
+        text = getVacancyWordForm(count),
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        color = Color.White,
+        lineHeight = 17.sp
+    )
 }

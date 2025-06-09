@@ -33,7 +33,7 @@ import com.andreising.presentation.screens.main.components.VacancyCard
 import com.andreising.presentation.screens.main.components.VacancyTopRow
 
 @Composable
-fun MainScreen() {
+fun MainScreen(onNavigateToVacancyScreen: () -> Unit) {
     val viewModel: MainScreenViewModel = hiltViewModel()
     val responseState = viewModel.responseState.collectAsState(ResponseState.Loading)
 
@@ -41,18 +41,28 @@ fun MainScreen() {
         viewModel.loadData()
     }
 
-    MainContent(responseState = responseState.value)
+    MainContent(
+        responseState = responseState.value,
+        onItemFavouriteToggled = { viewModel.toggleItem(it) },
+        onNavigateToVacancyScreen = { onNavigateToVacancyScreen.invoke() }
+    )
 }
 
 @Composable
-private fun MainContent(responseState: ResponseState) {
+private fun MainContent(
+    responseState: ResponseState,
+    onItemFavouriteToggled: (VacancyMainModel) -> Unit,
+    onNavigateToVacancyScreen: () -> Unit
+) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when (responseState) {
             is ResponseState.Error -> ErrorState()
             is ResponseState.Loading -> LoadingState()
             is ResponseState.Success -> SuccessContent(
                 optionList = responseState.data.optionList,
-                vacancyList = responseState.data.vacancyList
+                vacancyList = responseState.data.vacancyList,
+                onItemFavouriteToggled = { onItemFavouriteToggled.invoke(it) },
+                onNavigateToVacancyScreen = { onNavigateToVacancyScreen.invoke() }
             )
         }
     }
@@ -69,7 +79,12 @@ private fun LoadingState() {
 }
 
 @Composable
-private fun SuccessContent(optionList: List<OptionMainModel>, vacancyList: List<VacancyMainModel>) {
+private fun SuccessContent(
+    optionList: List<OptionMainModel>,
+    vacancyList: List<VacancyMainModel>,
+    onItemFavouriteToggled: (VacancyMainModel) -> Unit,
+    onNavigateToVacancyScreen: () -> Unit
+) {
     val defaultHorizontalPadding = PaddingValues(horizontal = 16.dp)
 
     val isFullState = remember {
@@ -78,7 +93,7 @@ private fun SuccessContent(optionList: List<OptionMainModel>, vacancyList: List<
 
     LazyColumn(
         modifier = Modifier
-            .padding(vertical = 16.dp)
+            .padding(top = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -94,12 +109,12 @@ private fun SuccessContent(optionList: List<OptionMainModel>, vacancyList: List<
                 vacancyList.size
             )
         }
-        item { VacancyTitle() }
+        item { MainTitle(text = stringResource(R.string.vacancies_for_you)) }
         items(if (!isFullState.value) vacancyList.take(3) else vacancyList) {
             VacancyCard(
                 vacancy = it,
-                onFavouriteClicked = {},
-                onClick = {})
+                onFavouriteClicked = { onItemFavouriteToggled.invoke(it) },
+                onClick = { onNavigateToVacancyScreen.invoke() })
         }
         if (!isFullState.value) item {
             BigPrimaryButton(
@@ -110,10 +125,10 @@ private fun SuccessContent(optionList: List<OptionMainModel>, vacancyList: List<
 }
 
 @Composable
-fun VacancyTitle(modifier: Modifier = Modifier) {
+fun MainTitle(modifier: Modifier = Modifier, text: String) {
     Text(
         modifier = modifier.padding(horizontal = 16.dp),
-        text = stringResource(R.string.vacancies_for_you),
+        text = text,
         color = Color.White,
         fontSize = 20.sp,
         fontWeight = FontWeight.Medium,

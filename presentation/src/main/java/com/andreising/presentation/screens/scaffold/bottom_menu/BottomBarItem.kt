@@ -36,9 +36,12 @@ fun RowScope.BottomBarItem(
         onClick = onClick,
         icon = {
             count?.let {
-                Box(modifier = Modifier.size(iconSize), contentAlignment = Alignment.TopEnd) {
+                Box(
+                    modifier = Modifier.size(iconSize),
+                    contentAlignment = Alignment.TopEnd
+                ) {
                     BottomBarItemIcon(item.iconId, modifier = Modifier.fillMaxSize())
-                    BubbleItem(count = it)
+                    if (it != 0) BubbleItem(count = it)
                 }
             } ?: BottomBarItemIcon(item.iconId, modifier = Modifier.size(iconSize))
         },

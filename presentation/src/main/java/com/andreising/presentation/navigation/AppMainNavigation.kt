@@ -8,31 +8,16 @@ import androidx.navigation.compose.composable
 @Composable
 fun AppMainNavigation(
     navHostController: NavHostController,
-    mainScreen: @Composable () -> Unit,
-    favouriteScreen: @Composable () -> Unit,
-    responseScreen: @Composable () -> Unit,
-    messagesScreen: @Composable () -> Unit,
-    profileScreen: @Composable () -> Unit
+    scaffoldScreen: @Composable () -> Unit,
+    vacancyScreen: @Composable () -> Unit
 ) {
-    NavHost(navController = navHostController, startDestination = Screen.MainScreen.route) {
-        composable(route = Screen.MainScreen.route) {
-            mainScreen.invoke()
+    NavHost(navController = navHostController, startDestination = Screen.ScaffoldScreen.route) {
+        composable(route = Screen.ScaffoldScreen.route) {
+            scaffoldScreen.invoke()
         }
 
-        composable(route = Screen.FavouriteScreen.route) {
-            favouriteScreen.invoke()
-        }
-
-        composable(route = Screen.ResponsesScreen.route) {
-            responseScreen.invoke()
-        }
-
-        composable(route = Screen.MessagesScreen.route) {
-            messagesScreen.invoke()
-        }
-
-        composable(route = Screen.ProfileScreen.route) {
-            profileScreen.invoke()
+        composable(route = Screen.VacancyScreen.route) {
+            vacancyScreen.invoke()
         }
     }
 }
